@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "esnext",
+    "target": "es5",
     "module": "esnext",
     "strict": true,
     "jsx": "preserve",
@@ -8,8 +8,22 @@
     "moduleResolution": "node",
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
+    "allowSyntheticDefaultImports": true, /* Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */
     "sourceMap": true,
+    /* Module Resolution Options */
+    // "moduleResolution": "node",            /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */
+    // "paths": {},                           /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */
+    // "rootDirs": [],                        /* List of root folders whose combined content represents the structure of the project at runtime. */
+    // "typeRoots": [],                       /* List of folders to include type definitions from. */
+    /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */
+    // "preserveSymlinks": true,              /* Do not resolve the real path of symlinks. */
+    // "allowUmdGlobalAccess": true,          /* Allow accessing UMD globals from modules. */
+
+    /* Source Map Options */
+    // "sourceRoot": "",                      /* Specify the location where debugger should locate TypeScript files instead of source locations. */
+    // "mapRoot": "",                         /* Specify the location where debugger should locate map files instead of generated locations. */
+    // "inlineSourceMap": true,               /* Emit a single file with source maps instead of having a separate file. */
+    // "inlineSources": true,                 /* Emit the source alongside the sourcemaps within a single file; requires '--inlineSourceMap' or '--sourceMap' to be set. */
     "baseUrl": ".",
     "types": [
       "webpack-env",
