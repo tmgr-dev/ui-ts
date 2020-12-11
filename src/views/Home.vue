@@ -1,13 +1,15 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-  </div>
+  <Header />
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+  import { defineComponent } from 'vue';
+  import Header from '@/components/Header.vue';
 
-export default defineComponent({
-  name: 'Home'
-});
+  export default defineComponent({
+    name: 'Home',
+    components: {
+      Header
+    }
+  });
 </script>
