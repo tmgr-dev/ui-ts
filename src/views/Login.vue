@@ -14,11 +14,15 @@
 
       <el-col :span="10" :offset="4">
         <el-form :model="form" label-position="left">
-          <el-form-item>
-            <el-input type="email" placeholder="Email" v-model="form.email" />
+          <el-form-item :error="$parseError(errors.email)">
+            <el-input
+              type="email"
+              placeholder="Email"
+              v-model="form.email"
+            />
           </el-form-item>
 
-          <el-form-item>
+          <el-form-item :error="$parseError(errors.password)">
             <el-input type="password" placeholder="Password" v-model="form.password" />
           </el-form-item>
 
@@ -29,7 +33,7 @@
           <el-button
             round
             type="primary"
-            @click="onSubmit">
+            @click="login">
             Login
           </el-button>
 
@@ -45,6 +49,7 @@
     reactive,
     defineComponent
   } from 'vue'
+  import CatchError from "@/mixins/CatchError";
 
   interface LoginForm {
     email: string;
@@ -53,6 +58,9 @@
   }
 
   export default defineComponent({
+    mixins: [
+      CatchError
+    ],
     data: () => ({
       tilt: null,
       widthObject: 0,
@@ -71,6 +79,14 @@
       },
       mouseOut () {
         this.tilt.style.transform = 'perspective(500px) rotateX(0) rotateY(0)'
+      },
+      async login () {
+        try {
+          await this.$axios.post('auth/login', this.form)
+        } catch ({ response }) {
+          this.catchError(response)
+          console.log(this.errors)
+        }
       }
     },
     mounted () {
@@ -87,13 +103,11 @@
         remember: false
       })
 
-      const onSubmit = () => {
-        alert('submit')
-      }
+      const errors = {}
 
       return {
         form,
-        onSubmit
+        errors
       }
     }
   })
