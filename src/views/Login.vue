@@ -19,8 +19,8 @@
   </el-row>
 </template>
 
-<script lang="ts">
-  import { defineComponent, ref, reactive } from 'vue'
+<script lang="ts" setup>
+  import { ref, reactive } from 'vue'
 
   interface LoginForm {
     email: string;
@@ -28,26 +28,15 @@
     remember: boolean;
   }
 
-  export default defineComponent({
-    name: 'Login',
-    setup () {
-      const form: LoginForm = reactive({
-        email: '',
-        password: '',
-        remember: false
-      })
-
-      const test = ref('hello')
-
-      const onSubmit = () => {
-        alert('submit')
-      }
-
-      return {
-        form,
-        test,
-        onSubmit
-      }
-    }
+  const form: LoginForm = reactive({
+    email: '',
+    password: '',
+    remember: false
   })
+
+  const test = ref('hello')
+
+  const onSubmit = () => {
+    alert('submit')
+  }
 </script>
