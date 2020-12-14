@@ -23,7 +23,11 @@
           </el-form-item>
 
           <el-form-item :error="$parseError(errors.password)">
-            <el-input type="password" placeholder="Password" v-model="form.password" />
+            <el-input
+              type="password"
+              placeholder="Password"
+              v-model="form.password"
+            />
           </el-form-item>
 
           <el-form-item>
@@ -49,7 +53,6 @@
     reactive,
     defineComponent
   } from 'vue'
-  import CatchError from "@/mixins/CatchError";
 
   interface LoginForm {
     email: string;
@@ -57,17 +60,19 @@
     remember: boolean;
   }
 
+  interface CustomMouseEvent {
+    layerX: number;
+    layerY: number;
+  }
+
   export default defineComponent({
-    mixins: [
-      CatchError
-    ],
     data: () => ({
-      tilt: null,
+      tilt: {} as HTMLElement,
       widthObject: 0,
       heightObject: 0
     }),
     methods: {
-      mouseMove (e) {
+      mouseMove (e: CustomMouseEvent) {
         if (!this.tilt) {
           return
         }
@@ -91,7 +96,7 @@
     },
     mounted () {
       this.$nextTick(() => {
-        this.tilt = this.$refs.tilt
+        this.tilt = this.$refs.tilt as HTMLElement
         this.widthObject = this.tilt.clientWidth
         this.heightObject = this.tilt.clientHeight
       })
@@ -103,11 +108,8 @@
         remember: false
       })
 
-      const errors = {}
-
       return {
-        form,
-        errors
+        form
       }
     }
   })

@@ -1,9 +1,17 @@
+interface ErrorResponse {
+  data: {
+    errors: {};
+    message: string;
+  };
+  status: number;
+}
+
 export default {
   data: () => ({
     errors: {}
   }),
   methods: {
-    catchError (response) {
+    catchError (response: ErrorResponse) {
       if (Object.prototype.hasOwnProperty.call(response, 'data')
           && Object.prototype.hasOwnProperty.call(response.data, 'errors')) {
         const { message } = response.data

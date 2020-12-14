@@ -16,13 +16,23 @@
   </el-menu>
 </template>
 
-<script setup lang="ts">
-  import { ref } from 'vue';
+<script lang="ts">
+  import { ref, defineComponent } from 'vue';
   import { useRouter } from "vue-router";
 
-  const router = useRouter()
-  const activeIndex = ref('/')
-  const handleSelect = (path: string) => {
-    router.push(path)
-  }
+  export default defineComponent({
+    setup () {
+      const router = useRouter()
+      const activeIndex = ref('/')
+      const handleSelect = (path: string) => {
+        router.push(path)
+      }
+
+      return {
+        activeIndex,
+        handleSelect
+      }
+    }
+  })
+
 </script>
