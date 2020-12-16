@@ -90,7 +90,6 @@
           await this.$axios.post('auth/login', this.form)
         } catch ({ response }) {
           this.catchError(response)
-          console.log(this.errors)
         }
       }
     },
