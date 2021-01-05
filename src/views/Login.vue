@@ -4,7 +4,7 @@
 
       <el-col :span="10">
         <div
-          ref="tilt"
+          id="tilt"
           class="tilt"
           @mousemove="mouseMove"
           @mouseout="mouseOut">
@@ -51,8 +51,11 @@
 <script lang="ts">
   import {
     reactive,
+    getCurrentInstance,
     defineComponent
-  } from 'vue'
+  } from 'vue';
+  import initTilt from '@/use/TiltElement'
+  import catchError from "@/use/CatchError";
 
   interface LoginForm {
     email: string;
@@ -60,55 +63,30 @@
     remember: boolean;
   }
 
-  interface CustomMouseEvent {
-    layerX: number;
-    layerY: number;
-  }
-
   export default defineComponent({
-    data: () => ({
-      tilt: {} as HTMLElement,
-      widthObject: 0,
-      heightObject: 0
-    }),
-    methods: {
-      mouseMove (e: CustomMouseEvent) {
-        if (!this.tilt) {
-          return
-        }
-        const xVal = e.layerX
-        const yVal = e.layerY
-        const yRotation = 20 * ((xVal - this.widthObject / 2) / this.widthObject)
-        const xRotation = -20 * ((yVal - this.heightObject / 2) / this.heightObject)
-        this.tilt.style.transform = `perspective(500px) rotateX(${xRotation}deg) rotateY(${yRotation}deg)`
-      },
-      mouseOut () {
-        this.tilt.style.transform = 'perspective(500px) rotateX(0) rotateY(0)'
-      },
-      async login () {
-        try {
-          await this.$axios.post('auth/login', this.form)
-        } catch ({ response }) {
-          this.catchError(response)
-        }
-      }
-    },
-    mounted () {
-      this.$nextTick(() => {
-        this.tilt = this.$refs.tilt as HTMLElement
-        this.widthObject = this.tilt.clientWidth
-        this.heightObject = this.tilt.clientHeight
-      })
-    },
     setup() {
+      const internalInstance = getCurrentInstance()
+      const $axios = internalInstance?.appContext.config.globalProperties.$axios
       const form: LoginForm = reactive({
         email: '',
         password: '',
         remember: false
       })
+      let errors = reactive({})
+
+      const login = async () => {
+        try {
+          await $axios.post('auth/login', form)
+        } catch (e) {
+          errors = catchError(e?.response)
+        }
+      }
 
       return {
-        form
+        form,
+        errors,
+        login,
+        ...initTilt()
       }
     }
   })
